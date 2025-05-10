@@ -1,5 +1,9 @@
 # test-unwinder
 
+```sh
+sudo apt install libdw-dev libunwind-dev
+```
+
 ## non-GNU [libunwind](https://github.com/libunwind/libunwind)
 
 ```sh
