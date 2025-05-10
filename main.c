@@ -44,28 +44,37 @@ void show_backtrace(Dwfl *dwfl) {
   }
 }
 
-int main(int argc, char *argv[]) {
+bool do_something(void) {
   Dwfl *dwfl = dwfl_begin(&dwfl_callbacks);
   if (!dwfl) {
     fprintf(stderr, "dwfl_begin: %s\n", dwfl_errmsg(dwfl_errno()));
-    return -1;
+    return false;
   }
 
   if (dwfl_linux_proc_report(dwfl, getpid()) != 0) {
     fprintf(stderr, "dwfl_linux_proc_report: %s\n", dwfl_errmsg(dwfl_errno()));
     dwfl_end(dwfl);
-    return -1;
+    return false;
   }
 
   if (dwfl_report_end(dwfl, NULL, NULL) != 0) {
     fprintf(stderr, "dwfl_report_end: %s\n", dwfl_errmsg(dwfl_errno()));
     dwfl_end(dwfl);
-    return -1;
+    return false;
   }
 
   show_backtrace(dwfl);
 
   dwfl_end(dwfl);
 
-  return 0;
+  return true;
 }
+
+int run_program(void) {
+  if (!do_something()) {
+    return EXIT_FAILURE;
+  }
+  return EXIT_SUCCESS;
+}
+
+int main(int argc, char *argv[]) { return run_program(); }
