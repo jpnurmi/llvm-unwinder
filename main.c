@@ -35,11 +35,11 @@ void show_backtrace(Dwfl *dwfl) {
     }
 
     if (unw_get_proc_name(&cursor, sym, sizeof(sym), &offset) == 0) {
-      printf("ip = %lx, sp = %lx, proc = %s+0x%lx, dw = %s\n", (long)ip,
-             (long)sp, sym, (long)offset, name);
+      printf("ip=0x%lx, sp=0x%lx, dw=%s, proc=%s+0x%lx\n", (long)ip, (long)sp,
+             name, sym, (long)offset);
     } else {
-      printf("ip = %lx, sp = %lx, proc = <unknown>, dw = %s\n", (long)ip,
-             (long)sp, name);
+      printf("ip=0x%lx, sp=0x%lx, dw=%s, proc=<unknown>\n", (long)ip, (long)sp,
+             name);
     }
   }
 }
